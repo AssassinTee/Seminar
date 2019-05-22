@@ -1,2 +1,5 @@
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Generated Output of the NN
+src/*.h5
