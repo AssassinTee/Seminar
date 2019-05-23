@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -19,7 +19,7 @@ except IOError:
     pass
 
 
-# In[4]:
+# In[2]:
 
 
 # Dataset Preparation
@@ -30,7 +30,7 @@ train = read_dataset('./data/train.json')
 test = read_dataset('./data/test.json')
 
 
-# In[5]:
+# In[ ]:
 
 
 print ("Prepare text data of Train and Test ... ")
@@ -48,7 +48,7 @@ print(target_set)
 print(len(target_set))
 
 
-# In[6]:
+# In[ ]:
 
 
 tfidf = TfidfVectorizer(binary=True)
@@ -63,7 +63,7 @@ X = tfidf_features(train_text, flag="train")
 X_test = tfidf_features(test_text, flag="test")
 
 
-# In[7]:
+# In[ ]:
 
 
 lb = LabelEncoder()
@@ -73,7 +73,7 @@ y = keras.utils.to_categorical(y)
 print(y)
 
 
-# In[8]:
+# In[ ]:
 
 
 model = keras.Sequential()
@@ -87,15 +87,17 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 
-# In[9]:
+# In[ ]:
 
 
 history = model.fit(X, y, epochs=30, batch_size=512, validation_split=0.1)
-model.save_weights("model.h5")
+model.save_weights("weights.h5")
+print("Saved weights to disk")
+model.save("model.h5")
 print("Saved model to disk")
 
 
-# In[10]:
+# In[ ]:
 
 
 print(history.history.keys())
@@ -116,21 +118,21 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.show()
 
 
-# In[11]:
+# In[ ]:
 
 
 predictions_encoded = model.predict(X_test)
 predictions_encoded.shape
 
 
-# In[12]:
+# In[ ]:
 
 
 predictions = lb.inverse_transform([np.argmax(pred) for pred in predictions_encoded])
 print(predictions)
 
 
-# In[13]:
+# In[ ]:
 
 
 test_id = [doc['id'] for doc in test]
