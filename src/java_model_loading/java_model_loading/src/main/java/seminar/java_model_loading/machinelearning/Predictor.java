@@ -31,13 +31,12 @@ public class Predictor {
 		return model.output(features);
 	}
 	
-	public INDArray getTestInput()
+	public INDArray getTestInput(int size)
 	{
-		int size = model.getLayer(0).batchSize();
-		INDArray features = Nd4j.zeros(size);
-		for(int i = 0; i < size; ++i)
+		INDArray features = Nd4j.zeros(1, size);
+		for(int i = 0; i < 28; ++i)
 		{
-			features.putScalar(new int[] {i}, Math.random() < 0.5? 0 : 1);
+			features.putScalar(new int[] {0, i}, Math.random() < 0.5? 0 : 1);
 		}
 		return features;
 	}
