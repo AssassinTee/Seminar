@@ -4,7 +4,3 @@
 # Generated Output of the NN
 src/*.h5
 
-#data for jupyter notebooks
-docs/*.h5
-*.h5
-*.json
