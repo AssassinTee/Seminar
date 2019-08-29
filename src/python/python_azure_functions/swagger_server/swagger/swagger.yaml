@@ -1,0 +1,88 @@
+openapi: 3.0.2
+info:
+  title: Simple ML Predictor API
+  description: An API for a ML-prediction web-service
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/AssassinTee/Predictor/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /predict:
+    post:
+      description: Returns a prediction-vector of the ML-model
+      operationId: predict_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataArray'
+      responses:
+        200:
+          description: Successful prediction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataArray'
+        400:
+          description: Invalid request
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /predictlabel:
+    post:
+      description: Returns a prediction label of the ML-model
+      operationId: predictlabel_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataArray'
+      responses:
+        200:
+          description: Successful prediction
+          content:
+            application/json:
+              schema:
+                type: integer
+                x-content-type: application/json
+        400:
+          description: Invalid request
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /train:
+    post:
+      description: Start training the model
+      operationId: train_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Target'
+      responses:
+        200:
+          description: Successful training
+        500:
+          description: Training failed
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+components:
+  schemas:
+    DataArray:
+      type: array
+      description: List of floats
+      example:
+      - 0.01
+      - 0.02
+      - 0.03
+      - 1
+      - 0
+      items:
+        maximum: 1
+        minimum: 0
+        type: number
+        format: float
+    Target:
+      properties:
+        data:
+          $ref: '#/components/schemas/DataArray'
+        label:
+          type: integer
+          example: 1
+      description: Data and target label
+

@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-08-06T13:45:03.308Z[GMT]")
@@ -64,20 +63,20 @@ public class PredictApiController implements PredictApi {
 			float[] input = new float[body.size()];
 			for(int i = 0; i < body.size(); ++i)
 				input[i] = body.get(i);
+			float[] res;
 			try {
-				float[] res = kerasPredictor.getPrediction(input);
-				//float[] res = mxnetPredictor.predict(input);
-				
-				//Convert Result
-				DataArray dt = new DataArray();
-				for(int i = 0; i < res.length; ++i)
-					dt.add(Float.valueOf(res[i]));
-				
-				return ResponseEntity.ok(dt);
+				res = kerasPredictor.getPrediction(input);
+				//res = mxnetPredictor.predict(input);
 			} catch(ArrayIndexOutOfBoundsException e) {
 				return new ResponseEntity<DataArray>(HttpStatus.BAD_REQUEST);
 			}
-			//return new ResponseEntity<DataArray>(objectMapper.readValue("[ 0.01, 0.02, 0.03, 1, 0 ]", DataArray.class), HttpStatus.NOT_IMPLEMENTED);
+				
+			//Convert Result
+			DataArray dt = new DataArray();
+			for(int i = 0; i < res.length; ++i)
+				dt.add(Float.valueOf(res[i]));
+				
+			return ResponseEntity.ok(dt);
         }
 
         return new ResponseEntity<DataArray>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);

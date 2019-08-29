@@ -6,7 +6,7 @@ import org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurat
 import org.deeplearning4j.nn.modelimport.keras.exceptions.UnsupportedKerasConfigurationException;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
-import Predictor;
+import seminar.java_model_loading.machinelearning.Predictor;
 
 /**
  * Hello world!
